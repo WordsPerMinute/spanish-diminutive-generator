@@ -1,0 +1,234 @@
+#username {
+	color: #cb4b16;
+}
+
+#path {
+	color: #729FCF;
+}
+
+
+/* Set up page containers */
+*	{
+	box-sizing: border-box;
+}
+
+main, header, footer {
+	border: 0px solid #000000;
+}
+
+header {
+	margin: $xl $baseline 0;
+	@media (max-width: $small-breakpoint) {
+		margin-top: $baseline;
+	}
+}
+
+main {
+	margin: 0 $baseline;
+}
+
+body {
+	background-color: #073642;
+	padding-left: calc(100vw - 100%);
+}
+
+.body-wrapper {
+	display: flex;
+	justify-content: center;
+	// overflow: hidden;
+}
+
+.sections-container {
+	display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+	min-width: 1000px;
+	@media (max-width: $medium-breakpoint) {
+		min-width: 600px;
+	}
+	@media (max-width: $small-breakpoint) {
+		min-width: 300px;
+	}
+}
+
+.main-wrapper {
+	max-width: 800px;
+}
+
+.main-wrapper {
+	/* The styled terminal arrows */
+	h2::before {
+		content: '=>';
+		position: relative;
+		// although the fat arrows align with the title, to the eye it looks like they don't, the extra 2 px helps offset that
+		left: (-$large + 2px);
+		color: #839496;
+	}
+}
+
+
+/* Text */
+h1 {
+	/* the : and $ are affected by this */
+	font-size: $font-xxxl;
+	color: #839496;
+  font-family: $title-font;
+	min-width: 800px;
+	@media (max-width: $medium-breakpoint) {
+		font-size: $font-xxl;
+		min-width: 550px;
+	}
+	@media (max-width: $small-breakpoint) {
+		font-size: $font-baseline;
+		min-width: 300px;
+	}
+}
+
+h1 > * {
+	font-family: 'Ubuntu Mono', monospace;
+	color: #cb4b16;
+}
+
+h1 {
+		color: #839496;
+}
+
+h2 {
+	font-family: 'Ubuntu Mono', monospace;
+	color: #839496;
+	font-size: $font-xxl;
+	margin-left: $large;
+	margin-top: $xl;
+	&:last-child {
+		margin-bottom: $xl;
+	}
+	@media (max-width: $medium-breakpoint) {
+		font-size: $font-xxl;
+	}
+	@media (max-width: $small-breakpoint) {
+		&:first-child {
+			margin-top: $xl;
+		}
+	}
+}
+
+.project-page h2:not(:first-child), .project-page-return {
+			margin-top: $xxxl;
+	}
+
+p {
+	font-family: 'Ubuntu Mono', monospace;
+	font-size: $font-xl;
+	line-height: 1.75;
+	margin-top: $xxs;
+	color: #839496;
+	& + p {
+		  margin-top: $small;
+	}
+	@media (max-width: $medium-breakpoint) {
+		max-width: 625px;
+	}
+	@media (max-width: $small-breakpoint) {
+	font-size: $font-baseline;
+	}
+}
+
+.content-container :not(h2):not(a) {
+	margin-left: $xxl;
+}
+
+.project-image {
+	width: 560px;
+	margin-top: $small;
+	@media (max-width: $medium-breakpoint) {
+			width: 75%;
+	}
+}
+
+.project-video {
+	display: flex;
+	margin-top: 20px;
+	margin-bottom: 30px;
+	@media (max-width: $medium-breakpoint) {
+		// .content-image {
+		// 	width: 750px;
+		// }
+	}
+}
+
+@media (max-width: $medium-breakpoint) {
+	iframe {
+		width: 75%;
+	}
+}
+
+.bio-image {
+	width: 400px;
+	margin-top: $small;
+	@media (max-width: $small-breakpoint) {
+	width: 75%;
+	margin-top: $large;
+	}
+}
+
+/* Link styling */
+a:link, a:visited {
+	color: #839496;
+	text-decoration: none;
+}
+
+a:active {
+	text-decoration: none;
+	color: #729FCF;
+}
+
+a:hover {
+	color: #859900;
+}
+
+/* FOOTER */
+#no-copy {
+	width: $xxs;
+}
+
+footer {
+	font-size: $xs;
+}
+
+.footer-text {
+	color: #073642;
+}
+
+
+/* START typewriter for TITLE */
+#typewriter-title {
+	color: #839496;
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  border-right: .15em solid transparent; /* The typwriter cursor */
+  animation:
+    blink-caret-title .20s step-end 2;
+}
+
+@keyframes blink-caret-title {
+  from, to { border-color: transparent }
+  50% { border-color: #839496; }
+}
+
+/* START appear for BODY */
+.main-wrapper {
+  visibility: invisible;
+  opacity: 0;
+	animation: appear .5s ease-out .50s forwards;
+}
+@keyframes appear {
+  to {
+		visibility: visible;
+		opacity: 1;
+  }
+}
+@-webkit-keyframes appear {
+  to {
+		visibility: visible;
+		opacity: 1;
+  }
+}

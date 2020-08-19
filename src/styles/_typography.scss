@@ -1,0 +1,101 @@
+// The old Ubuntu style :)
+// @import url('https://fonts.googleapis.com/css2?family=Ubuntu&family=Ubuntu+Mono&display=swap');
+// $title-font: 'Ubuntu Mono', monospace;
+// $body-font: 'Ubuntu', sans-serif;
+
+@import url(https://fonts.googleapis.com/css2?family=Lora:wght@500&family=Roboto&display=swap);
+
+$title-font: 'Lora', serif;
+$body-font: 'Roboto', sans-serif;
+
+a {
+    text-decoration: none;
+    transition: .3s;
+    color: #195B8A;
+    &:visited {
+        color: #195B8A;
+    }
+    &:hover {
+        color: #cb4b16;
+    }
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: $title-font;
+}
+
+h1 {
+    font-size: 32px;
+    color: $grey-1;
+    display: inline-block;
+    border-bottom: 1px solid hsla(0, 0, 90, 100);
+    margin-bottom: $xl;
+}
+
+.thumbs-up-icon {
+    height: 24px;
+    margin-right: $xs;
+}
+
+h3 {
+    font-size: 22px;
+    a {
+        color: #859900;
+        &:visited {
+            color: #859900;
+        }
+        &:hover {
+            color: #cb4b16;
+        }
+    }
+    .date-span {
+        color: rgb(187, 187, 187);
+        font-size: 50%;
+    }
+}
+
+h4, h5, h6 {
+    font-size: 16px;
+}
+
+h4 {
+    &.section-subheading {
+        margin-top: -$large;
+        margin-left: 35px;
+    }
+}
+
+
+h6 {
+    color: hsla(0, 0, 20, 100);
+}
+
+p {
+    margin-top: $large;
+    line-height: 2;
+    font-size: $font-xl;
+    max-width: 650px;
+    @media (max-width: 400px) {
+        font-size: $font-baseline;
+    }
+}
+
+h1 + p {
+    margin-top: 0;
+}
+
+p, a {
+    font-family: $body-font;
+}
+
+blockquote {
+    // border-left: 4px solid hsla(0, 0, 90, 100);
+    color: hsla(0, 0, 40, 100);
+    margin-top: -30px;
+    margin-right: 0;
+    margin-left: 15px;
+    padding-left: 0;
+    p {
+        font-size: 14px;
+    }
+}
