@@ -18,10 +18,7 @@ function App() {
   return (
     <div className="App">
       <Header />
-      <WordGenerator
-        convertedWord={convertedWord}
-        setConvertedWord={setConvertedWord}
-      />
+      <WordGenerator />
     </div>
   );
 }

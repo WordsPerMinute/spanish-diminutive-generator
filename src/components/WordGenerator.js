@@ -1,100 +1,103 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-const WordGenerator = ({ props }) => {
+const WordGenerator = (props) => {
+  const [convertedWord, setConvertedWord] = useState('');
   const [showConvertedWord, setShowConvertedWord] = useState(false);
   const [userInput, setUserInput] = useState('');
+  const [convertedWordDiv, setConvertedWordDiv] = useState(null);
+
+  const convertWord = (word) => {
+    if (word[word.length - 1] === 'o') {
+      setConvertedWord(word.slice(0, [word.length - 1]) + 'ito')
+    } else if (word[word.length - 1] === 'a') {
+      setConvertedWord(word.slice(0, [word.length - 1]) + 'ita')
+    }  else if (word[word.length - 1] === 'r') {
+      setConvertedWord(word + 'ito')
+    } else if (
+      word[word.length - 1] === ('a')
+      || word[word.length - 1] === ('á')
+      || word[word.length - 1] === ('e')
+      || word[word.length - 1] === ('é')
+      || word[word.length - 1] === ('i')
+      || word[word.length - 1] === ('í')
+      || word[word.length - 1] === ('o')
+      || word[word.length - 1] === ('ó')
+      || word[word.length - 1] === ('u')
+      || word[word.length - 1] === ('ú')
+      ) {
+      setConvertedWord(word + 'cito')
+    } else {
+      setConvertedWord(word + 'ito')
+    }
+  }
 
   const onChange = (e) => {
     console.log('onChanges');
 
-    const { options } = props;
-    const userInput = e.currentTarget.value;
-
-    // capture current word here
-    const convertedWord = (function() {
-      //run the convert helping function
-      userInput;
-    })();
-
-    const convertWord = (word) => {
-      setConvertedWord(word + 'EXTRA')
+    // setUserInput(e.currentTarget.value);
+    if (e.target.value.length > 0) {
+      let currentSearch = e.target.value;
+      convertWord(currentSearch)
+    } else {
+      setConvertedWord('')
     }
 
-    setShowConvertedWord(true);
-    setUserInput(e.currentTarget.value)
   };
 
-  onClick = (e) => {
+  const onClick = (e) => {
     setShowConvertedWord(false);
     setUserInput(e.currentTarget.innerText)
   };
 
-  onKeyDown = (e) => {
+  const onKeyDown = (e) => {
 
     if (e.keyCode === 13) {
-      // return key
+      return;
     } else if (e.keyCode === 38) {
       // up arrow
-      if (activeOption === 0) {
-        return;
-      }
+      return;
     } else if (e.keyCode === 40) {
       // down arrow
-        return;
+      return;
     }
   };
 
-  render() {
-    const {
-      onChange,
-      onClick,
-      onKeyDown,
+  if (setConvertedWord && userInput) {
+    let convertedWordDiv = (
+      <></>
+    )
 
-      state: { activeOption, filteredOptions, showOptions, userInput }
-    } = this;
-    let optionList;
-    if (showOptions && userInput) {
-      if (filteredOptions.length) {
-        optionList = (
-          <ul className="options">
-            {filteredOptions.map((optionName, index) => {
-              let className;
-              if (index === activeOption) {
-                className = 'option-active';
-              }
-              return (
-                <li className={className} key={optionName} onClick={onClick}>
-                  {optionName}
-                </li>
-              );
-            })}
-          </ul>
-        );
-      } else {
-        optionList = (
-          <div className="no-options">
-            <em>No Option!</em>
-          </div>
-        );
-      }
+    if (convertedWord.length) {
+      setConvertedWordDiv(
+        <ul className="convertedWord">
+          <li className={"search-box"} key={userInput} onClick={onClick}>
+            {convertedWord}
+          </li>
+        </ul>
+      );
+    } else {
+      setConvertedWordDiv(
+        <div className="no-options">
+          <em>Enter a word above to generate the diminutive!</em>
+        </div>
+      );
     }
-    return (
+  }
+  
+  return (
       <React.Fragment>
         <div className="search">
           <input
             type="text"
             className="search-box"
             onChange={onChange}
-            onKeyDown={onKeyDown}
-            value={userInput}
           />
           <input type="submit" value="" className="search-btn" />
         </div>
-        {optionList}
+        {convertedWord}
       </React.Fragment>
     );
-  }
 }
 
 export default WordGenerator;
