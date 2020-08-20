@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import logo from './logo.svg';
 import './App.css';
-import Header from './components/Layout.js'
+import './styles/global.scss'
+import Header from './components/Header.js'
 import WordGenerator from './components/WordGenerator.js'
 
 

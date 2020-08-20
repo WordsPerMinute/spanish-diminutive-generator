@@ -1,0 +1,22 @@
+@import '../styles/_all-utility-sheets.scss';
+
+h1 {
+    .spanish {
+        color: #ffcc00;
+    }
+    .diminutive {
+        color: #00247d;
+    }
+    .generator {
+        color: #cf142b;
+    }
+}
+
+h2 {
+    margin-top: $baseline;
+    color: $grey-5;
+}
+
+header {
+    padding-top: $xl;
+}

@@ -1,11 +1,15 @@
 import React from 'react';
+import './Header.scss'
 
 const Header = (props) => {
 
     return (  
         <header>
-            {console.log('hi')}
-            <h1>Spanish Diminutive Generator</h1>
+            <h1>
+                <span className="spanish">Spanish </span>
+                <span className="diminutive">Diminutive </span>
+                <span className="generator">Generator</span>
+            </h1>
             <h2>Generador de Diminutivos</h2>
         </header>
     );

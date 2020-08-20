@@ -1,0 +1,79 @@
+@import '../styles/_all-utility-sheets.scss';
+
+.search-wrapper {
+    width: 50rem;
+    align-self: center;
+    display: flex;
+}
+
+.search-box {
+  border: 4px solid transparent;
+  border-radius: 2px;
+  font-size: $large;
+  width: 100%;
+  padding: 1rem;
+  transition: width 0.3s;
+}
+
+.search-box:focus {
+  width: 100%;
+  outline: none;
+  border: 4px solid #69db8f;
+}
+
+.contract-icon {
+  height: 100%;
+  width: 4em;
+  margin-left: -5em;
+  margin-top: .15em;
+  opacity: 0.2;
+  background-color: transparent;
+  border: 0;
+  &:hover {
+      outline: none;
+      opacity: 0.4;
+      cursor: pointer;
+  }
+}
+
+.generator-results {
+  p {
+    margin-top: $xs;
+    &:first-child {
+      margin-top: $xxl;
+    }
+  
+    font-size: $font-xxxl;
+  }
+}
+
+.generator-results {
+  padding-bottom: $xxl;
+}
+
+.word-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.word-card {
+  flex: 0 1 30%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  padding: 12px 16px;
+  margin-bottom: $large;
+  border-radius: 5px;
+  margin: 0 $baseline;
+
+  &:hover {
+      box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  }
+
+  img {
+      max-width: 200px;
+      border-radius: 5px 5px 0 0;
+      margin-top: $xs;
+  }
+
+}

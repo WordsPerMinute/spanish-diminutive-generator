@@ -1,6 +1,39 @@
 @import '_reset.scss';
-@import '_colors.scss';
-@import '_sizes.scss';
-@import '_typography.scss';
+@import '_all-utility-sheets.scss';
 
+*, *::before, *::after {
+    box-sizing: border-box;
+}
 
+body {
+    background: #f7f7f7;
+}
+
+.App {
+    min-height: calc(100vh);
+    padding: $baseline;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: $title-font;
+}
+
+h1 {
+    font-size: $font-xxxxl;
+    font-weight: 600;
+}
+
+h2 {
+    font-size: $font-xxxl;
+}
+
+h3 {
+    font-size: $font-xl;
+}
+
+p {
+    font-family: $body-font;
+}

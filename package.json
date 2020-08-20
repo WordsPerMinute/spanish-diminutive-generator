@@ -7,10 +7,13 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "cheerio": "^1.0.0-rc.3",
+    "google-search-results-nodejs": "git+https://github.com/serpapi/google-search-results-nodejs.git",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.3"
+    "react-icons": "^3.11.0",
+    "react-scripts": "3.4.3",
+    "silabea": "^1.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
