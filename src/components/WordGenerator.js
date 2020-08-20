@@ -1,53 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { getWordGender, countSyllables } from '../utils/WordUtils'
 // import $ from 'jquery'
 // var googleTranslate = require('google-translate')(apiKey, options);
-const cheerio = require('cheerio');
-const request = require('request');
 
 const WordGenerator = (props) => {
   const [convertedWord, setConvertedWord] = useState('');
   const [showConvertedWord, setShowConvertedWord] = useState(false);
   const [userInput, setUserInput] = useState('');
+  const [wordGender, setWordGender] = useState('');
   const [convertedWordDiv, setConvertedWordDiv] = useState(null);
 
-
-  const getWordGender = (word) => {
-    let gender = '';
-    console.log(word)
-    request({
-      method: 'GET',
-      url: `https://www.wordreference.com/definicion/${word}`,
-      
-    }, (err, res, body) => {
-      if (err) return console.error(err);
-      let $ = cheerio.load(body);
-      let wordGender = $('strong+ .POS2').text()[1];
-      console.log(wordGender)
-
-      if (wordGender === 'f') {
-        gender = 'female';
-      } else {
-        gender = 'male';
-      }
-    });
-    console.log(gender)
-    return gender;
-  }
-
-  const convertWord = (word) => {
-
-    const countSyllables = (word) => {
-      word = word.toLowerCase();                                     //word.downcase!
-      if(word.length <= 3) { return 1; }                             //return 1 if word.length <= 3
-        word = word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '');   //word.sub!(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '')
-        word = word.replace(/^y/, '');                                 //word.sub!(/^y/, '')
-        return word.match(/[aeiouy]{1,2}/g).length;                    //word.scan(/[aeiouy]{1,2}/).size
-    }
-
-
+  const convertWord = async (word) => {
 
     const syllableTotal = countSyllables(word)
-
     const lastLetter = word[word.length - 1]
 
     if (syllableTotal === 1) {
@@ -59,7 +24,6 @@ const WordGenerator = (props) => {
           setConvertedWord(word + 'ecito');
         default:
           setConvertedWord(word + 'ecito');
-
       }
     } else if (word[word.length - 1] === 'o') {
       setConvertedWord(word.slice(0, [word.length - 1]) + 'ito')
@@ -69,6 +33,7 @@ const WordGenerator = (props) => {
     } else if (word[word.length - 1] === 'a') {
       setConvertedWord(word.slice(0, [word.length - 1]) + 'ita')
     } else if (
+      // break if endsInVowel
       word[word.length - 1] === ('a')
       || word[word.length - 1] === ('á')
       || word[word.length - 1] === ('e')
@@ -87,7 +52,7 @@ const WordGenerator = (props) => {
       // use translation API for gender
       // setConvertedWord(word.slice(0, [word.length - 1]) + 'cita')
       // setConvertedWord(word.slice(0, [word.length - 1]) + 'cito')
-      let wordUP = getWordGender(word);
+      const wordUP = await getWordGender(word);
       console.log(wordUP)
     } else {
       setConvertedWord(word + 'ito')
@@ -95,16 +60,12 @@ const WordGenerator = (props) => {
   }
 
   const onChange = (e) => {
-    console.log('onChanges');
-
-    // setUserInput(e.currentTarget.value);
     if (e.target.value.length > 0) {
       let currentSearch = e.target.value;
       convertWord(currentSearch)
     } else {
       setConvertedWord('')
     }
-
   };
 
   const onClick = (e) => {
@@ -135,7 +96,7 @@ const WordGenerator = (props) => {
   }
   
   return (
-      <React.Fragment>
+      <>
         <div className="search">
           <input
             type="text"
@@ -145,7 +106,7 @@ const WordGenerator = (props) => {
           <input type="submit" value="" className="search-btn" />
         </div>
         {convertedWord}
-      </React.Fragment>
+      </>
     );
 }
 
