@@ -7,14 +7,6 @@ import WordGenerator from './components/WordGenerator.js'
 
 
 function App() {
-  const [userWord, setUserWord] = useState(null);
-  const [convertedWord, setConvertedWord] = useState([
-    "Cafecito",
-    "Amorcito",
-    "Comentarito",
-    "Casita",
-    "Cervecita"
-  ]);
 
   return (
     <div className="App">

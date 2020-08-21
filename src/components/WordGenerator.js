@@ -1,7 +1,6 @@
 import React, { useState, setState } from 'react';
 import { isWordGenderFeminine, countSyllables, comparisonImageSearch } from '../utils/WordUtils'
 import PhotoCards from './PhotoCards'
-
 import { GiPhotoCamera } from 'react-icons/gi';
 import './WordGenerator.scss';
 
@@ -9,8 +8,16 @@ const WordGenerator = (props) => {
   const [userInput, setUserInput] = useState('');
   const [convertedWord, setConvertedWord] = useState('');
   const [wordCardInfo, setWordCardInfo] = useState({});
+  const [loadingCardInfo, setLoadingCardInfo] = useState(false);
+
 
   const convertWord = async (word) => {
+
+    // check w dictionary first if word
+    // debounce, on input don't fire for .2 seconds
+    // fixed height for p element, or other stuff
+
+    // add English translations
 
     // break the conditions out ahead of time to improve readability 
     const syllableTotal = countSyllables(word)
@@ -34,7 +41,7 @@ const WordGenerator = (props) => {
     // start with the most restrictive cases, such as irregulars, and work towards more common
     if (irregularEndsInCoCa) {
       feminineWord ?
-        setConvertedWord(wordTwoLettersRemoved + 'quita') :
+        setConvertedWord(`${wordTwoLettersRemoved}quita`) :
         setConvertedWord(wordTwoLettersRemoved + 'quito')
     } else if (irregularEndsInGaGo) {
       //check if second to last letter is 'u', as with 'agua'
@@ -107,7 +114,7 @@ const WordGenerator = (props) => {
   const onChange = (e) => {
     setUserInput(e.target.value)
 
-    if (e.target.value.length > 0) {
+    if (e.target.value.length > 1) {
       let currentSearch = e.target.value;
       convertWord(currentSearch)
     } else {
@@ -126,8 +133,10 @@ const WordGenerator = (props) => {
           <GiPhotoCamera 
             className="contract-icon"
             onClick={async () => {
-              setWordCardInfo({...comparisonImageSearch(userInput, convertedWord)})
-              console.log('completed', wordCardInfo)
+              setLoadingCardInfo(true)
+              const result = await comparisonImageSearch(userInput, convertedWord)
+              setWordCardInfo(result);
+              setLoadingCardInfo(false)
             }}
           />
         </div>
@@ -136,7 +145,7 @@ const WordGenerator = (props) => {
             <><p>Enter a word to get its diminutive!</p><p>When ready, click the camera for a comparison...</p></> : 
             <p>{convertedWord}</p>}
         </section>
-        <PhotoCards wordCardInfo={wordCardInfo}/>
+        <PhotoCards loadingCardInfo={loadingCardInfo} userInput={userInput} convertedWord={convertedWord} wordCardInfo={wordCardInfo}/>
       </>
     );
 }
