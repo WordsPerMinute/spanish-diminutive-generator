@@ -43,8 +43,10 @@
     &:first-child {
       margin-top: $large;
     }
-  
     font-size: $font-xxxl;
+    .invalid {
+      color: #cf142b;
+    }
   }
   min-height: 175px;
   max-height: 175px;

@@ -1,11 +1,13 @@
-import React, { useState, setState } from 'react';
-import { isWordGenderFeminine, countSyllables, comparisonImageSearch } from '../utils/WordUtils'
+import React, { useState, useCallback, useRef } from 'react';
+import { doesWordExist, isWordGenderFeminine, countSyllables, comparisonImageSearch, debounce } from '../utils/WordUtils'
 import PhotoCards from './PhotoCards'
 import { GiPhotoCamera } from 'react-icons/gi';
+// import debounce from 'lodash';
 import './WordGenerator.scss';
 
 const WordGenerator = (props) => {
   const [userInput, setUserInput] = useState('');
+  const [validWord, setValidWord] = useState(true);
   const [convertedWord, setConvertedWord] = useState('');
   const [wordCardInfo, setWordCardInfo] = useState({});
   const [loadingCardInfo, setLoadingCardInfo] = useState(false);
@@ -13,13 +15,18 @@ const WordGenerator = (props) => {
 
   const convertWord = async (word) => {
 
-    // check w dictionary first if word
-    // debounce, on input don't fire for .2 seconds
+    // ideas here :)
     // fixed height for p element, or other stuff
-
     // add English translations
 
-    // break the conditions out ahead of time to improve readability 
+    if (await doesWordExist(word)) {
+      setValidWord(true)
+    } else {
+      setValidWord(false)
+      return
+    }
+
+    // break the conditions out ahead of time to improve readability
     const syllableTotal = countSyllables(word)
     const lastLetter = word[word.length - 1]
     const vowelCondition = /[aeiouáéíóú]/;
@@ -111,16 +118,54 @@ const WordGenerator = (props) => {
     }
   }
 
-  const onChange = (e) => {
-    setUserInput(e.target.value)
 
-    if (e.target.value.length > 1) {
-      let currentSearch = e.target.value;
+  
+  const debouncedOnChange = useCallback(
+    debounce((value) => onChange(value), 300),
+    []
+  );
+
+
+  
+  const onChange = (value) => {
+    setUserInput(value)
+    if (value.length > 1) {
+      const currentSearch = value;
       convertWord(currentSearch)
     } else {
       setConvertedWord('')
     }
   };
+
+  function displayInstructionsOrResults(){
+    // console.log('k')
+    // if (validWord === false) {
+    //   return (
+    //     <>
+    //       <p className="invalid">Please enter a valid word!</p>
+    //     </>
+    //   )
+    // } else if (convertedWord.length === 0) {
+    //   return (
+    //     <>
+    //       <p>Enter a word to get its diminutive!</p>
+    //       <p>Click the camera for a comparison...</p>
+    //     </>
+    //   )
+    // } else {
+    //   return (
+    //     <p>{convertedWord}</p>
+    //   )
+    // }
+    return (
+      <div>
+        <p className="tests">Please enter a valid word!</p>
+      </div>
+      
+    );
+  };
+  
+
   
   return (
       <>
@@ -128,7 +173,7 @@ const WordGenerator = (props) => {
           <input
             type="text"
             className="search-box"
-            onChange={onChange}
+            onChange={event => debouncedOnChange(event.target.value)}
           />
           <GiPhotoCamera 
             className="contract-icon"
@@ -141,9 +186,7 @@ const WordGenerator = (props) => {
           />
         </div>
         <section className="generator-results">
-          {convertedWord.length === 0 ? 
-            <><p>Enter a word to get its diminutive!</p><p>When ready, click the camera for a comparison...</p></> : 
-            <p>{convertedWord}</p>}
+          {displayInstructionsOrResults}
         </section>
         <PhotoCards loadingCardInfo={loadingCardInfo} userInput={userInput} convertedWord={convertedWord} wordCardInfo={wordCardInfo}/>
       </>
