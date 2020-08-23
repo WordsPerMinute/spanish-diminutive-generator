@@ -1,16 +1,22 @@
 import React from 'react'
 import { RiLoader2Line } from 'react-icons/ri';
 import './PhotoCards.scss'
+import SampleInput1 from '../images/perro1.jpeg'
+import SampleInput2 from '../images/perro2.jpeg'
+import SampleOuput1 from '../images/perrito1.jpeg'
+import SampleOutput2 from '../images/perrito2.jpeg'
 
-const PhotoCards = ({wordCardInfo, userInput, convertedWord, loadingCardInfo}) => {
+// prevent mismatched words and photos
+// maybe camera with arrow tooltop explaining to click
+const PhotoCards = ({wordCardInfo, userInput, convertedWord, loadingCardInfo, validWord}) => {
     return ( 
         <section className="word-cards-container">
         <div className="word-card original">
-          <h3 className="original-title">{userInput || 'Perro'}</h3>
+          <h3 className="original-title">{(userInput && validWord) ? userInput : 'Perro'}</h3>
             {loadingCardInfo ? <RiLoader2Line className="loading-wheel" /> : 
               <>
-              <img src={wordCardInfo['original-photo1'] || "https://s3.amazonaws.com/FringeBucket/image_placeholder.png"} className="original-photo1" alt="original-photo1" />
-              <img src={wordCardInfo['original-photo2'] || "https://s3.amazonaws.com/FringeBucket/image_placeholder.png"} className="original-photo2" alt="original-photo2" />
+                <img src={wordCardInfo['original-photo1'] || SampleInput1} className="original-photo1" alt="original-photo1" />
+                <img src={wordCardInfo['original-photo2'] || SampleInput2} className="original-photo2" alt="original-photo2" />
               </>}
         </div>
 
@@ -18,8 +24,8 @@ const PhotoCards = ({wordCardInfo, userInput, convertedWord, loadingCardInfo}) =
           <h3 className="diminutive-title">{convertedWord || 'Perrito'}</h3>
           {loadingCardInfo ? <RiLoader2Line className="loading-wheel" /> : 
               <>
-              <img src={wordCardInfo['diminutive-photo1'] || "https://s3.amazonaws.com/FringeBucket/image_placeholder.png"} className="diminutive-photo1" alt="diminutive-photo1" />
-              <img src={wordCardInfo['diminutive-photo2'] || "https://s3.amazonaws.com/FringeBucket/image_placeholder.png"} className="diminutive-photo2" alt="diminutive-photo2" />
+              <img src={wordCardInfo['diminutive-photo1'] || SampleOuput1} className="diminutive-photo1" alt="diminutive-photo1" />
+              <img src={wordCardInfo['diminutive-photo2'] || SampleOutput2} className="diminutive-photo2" alt="diminutive-photo2" />
               </>}
         </div>
       </section>

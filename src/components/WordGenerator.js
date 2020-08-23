@@ -20,15 +20,15 @@ const WordGenerator = (props) => {
     // add English translations
 
     if (await doesWordExist(word)) {
-      setValidWord(true)
+      setValidWord(true);
     } else {
-      setValidWord(false)
+      setValidWord(false);
       return
     }
 
     // break the conditions out ahead of time to improve readability
-    const syllableTotal = countSyllables(word)
-    const lastLetter = word[word.length - 1]
+    const syllableTotal = countSyllables(word);
+    const lastLetter = word[word.length - 1];
     const vowelCondition = /[aeiouáéíóú]/;
     const endsInVowel = !(word[word.length - 1].search(vowelCondition) === -1) ? true : false;
     const endsInTwoVowels = (endsInVowel && word[word.length - 2] && !(word[word.length - 2].search(vowelCondition) === -1)) ? true : false;
@@ -40,96 +40,92 @@ const WordGenerator = (props) => {
     const irregularEndsInGaGo = !(word.search(irregularEndsInGaGoCondition) === -1) ? true : false;
     const irregularEndsInCoCaCondition = /(co|ca)$/;
     const irregularEndsInCoCa = !(word.search(irregularEndsInCoCaCondition) === -1) ? true : false;
-    const feminineWord = await isWordGenderFeminine(word);
+    const isFeminineWord = await isWordGenderFeminine(word);
 
     const wordOneLetterRemoved = word.slice(0, [word.length - 1]);
     const wordTwoLettersRemoved = word.slice(0, [word.length - 2]);
 
     // start with the most restrictive cases, such as irregulars, and work towards more common
     if (irregularEndsInCoCa) {
-      feminineWord ?
+      isFeminineWord ?
         setConvertedWord(`${wordTwoLettersRemoved}quita`) :
-        setConvertedWord(wordTwoLettersRemoved + 'quito')
+        setConvertedWord(`${wordTwoLettersRemoved}quito`)
     } else if (irregularEndsInGaGo) {
       //check if second to last letter is 'u', as with 'agua'
       if (word[word.length - 2] === 'u') {
-        setConvertedWord(wordTwoLettersRemoved + 'üita')
+        setConvertedWord(`${wordTwoLettersRemoved}üita`)
       } else {
-        feminineWord ?
-          setConvertedWord(wordOneLetterRemoved + 'uita') :
-          setConvertedWord(wordOneLetterRemoved + 'uito')
+        isFeminineWord ?
+          setConvertedWord(`${wordOneLetterRemoved}uita`) :
+          setConvertedWord(`${wordOneLetterRemoved}uito`)
       }
     } else if (word.length === 2) {
-      feminineWord ?
+      isFeminineWord ?
         setConvertedWord(word + 'cita') :
         setConvertedWord(word + 'cito')
     } else if (syllableTotal === 1 || endsInTwoVowels) {
         if (endsInTwoVowels) {
           switch (lastLetter) {
             default:
-              feminineWord ?
-                setConvertedWord(wordOneLetterRemoved + 'ecita') :
-                setConvertedWord(wordOneLetterRemoved + 'ecito')
+              isFeminineWord ?
+                setConvertedWord(`${wordOneLetterRemoved}ecita`) :
+                setConvertedWord(`${wordOneLetterRemoved}ecito`)
           }
         } else {
           switch (lastLetter) {
             case 's':
-              feminineWord ?
-                setConvertedWord(wordOneLetterRemoved + 'cecitas') :
-                setConvertedWord(wordOneLetterRemoved + 'cecitos')
+              isFeminineWord ?
+                setConvertedWord(`${wordOneLetterRemoved}cecitas`) :
+                setConvertedWord(`${wordOneLetterRemoved}cecitos`)
               break;
             case 'n':
-              setConvertedWord(word + 'ecito');
+              setConvertedWord(`${word}ecito`);
               break;
             case 'z':
-              feminineWord ?
-                setConvertedWord(wordOneLetterRemoved + 'cecita') :
-                setConvertedWord(wordOneLetterRemoved + 'cecito')
+              isFeminineWord ?
+                setConvertedWord(`${wordOneLetterRemoved}cecita`) :
+                setConvertedWord(`${wordOneLetterRemoved}cecito`)
               break;
             case 'a':
-              feminineWord ?
-                setConvertedWord(wordOneLetterRemoved + 'cecita') :
-                setConvertedWord(wordOneLetterRemoved + 'cecito')
+              isFeminineWord ?
+                setConvertedWord(`${wordOneLetterRemoved}cecita`) :
+                setConvertedWord(`${wordOneLetterRemoved}cecito`)
               break;
             default:
-              feminineWord ?
-                setConvertedWord(word.slice(0, [word.length]) + 'ecita') :
-                setConvertedWord(word.slice(0, [word.length]) + 'ecito')
+              isFeminineWord ?
+                setConvertedWord(`${word.slice(0, [word.length])}ecita`) :
+                setConvertedWord(`${word.slice(0, [word.length])}ecito`)
           }
         }
     } else if (lastLetter === 'o') {
-        setConvertedWord(wordOneLetterRemoved + 'ito')
+        setConvertedWord(`${wordOneLetterRemoved}ito`)
     } else if (lastLetter === 'a') {
-        setConvertedWord(wordOneLetterRemoved + 'ita')
+        setConvertedWord(`${wordOneLetterRemoved}ita`)
     } else if (endsInConsonantButNotRNZ) {
-        feminineWord ?
-          setConvertedWord(word + 'ita') :
-          setConvertedWord(word + 'ito')
+        isFeminineWord ?
+          setConvertedWord(`${word}ita`) :
+          setConvertedWord(`${word}ito`)
     } else if (endsInNREIUOrAccentedVowel) {
-        feminineWord ?
-          setConvertedWord(word + 'cita') :
-          setConvertedWord(word + 'cito')
+        isFeminineWord ?
+          setConvertedWord(`${word}cita`) :
+          setConvertedWord(`${word}cito`)
     } else if (lastLetter === 'z') {
-        feminineWord ?
-          setConvertedWord(wordOneLetterRemoved + 'cita') :
-          setConvertedWord(wordOneLetterRemoved + 'cito')
+        isFeminineWord ?
+          setConvertedWord(`${wordOneLetterRemoved}cita`) :
+          setConvertedWord(`${wordOneLetterRemoved}cito`)
     } else {
-      setConvertedWord(word + 'ito')
+      setConvertedWord(`${word}ito`)
     }
   }
 
-
-  
   const debouncedOnChange = useCallback(
-    debounce((value) => onChange(value), 300),
+    debounce((value) => onChange(value), 500),
     []
   );
 
-
-  
   const onChange = (value) => {
-    setUserInput(value)
     if (value.length > 1) {
+      setUserInput(value)
       const currentSearch = value;
       convertWord(currentSearch)
     } else {
@@ -137,35 +133,28 @@ const WordGenerator = (props) => {
     }
   };
 
-  function displayInstructionsOrResults(){
-    // console.log('k')
-    // if (validWord === false) {
-    //   return (
-    //     <>
-    //       <p className="invalid">Please enter a valid word!</p>
-    //     </>
-    //   )
-    // } else if (convertedWord.length === 0) {
-    //   return (
-    //     <>
-    //       <p>Enter a word to get its diminutive!</p>
-    //       <p>Click the camera for a comparison...</p>
-    //     </>
-    //   )
-    // } else {
-    //   return (
-    //     <p>{convertedWord}</p>
-    //   )
-    // }
-    return (
-      <div>
-        <p className="tests">Please enter a valid word!</p>
-      </div>
-      
-    );
+  const DisplayInstructionsOrResults = () => {
+    if (validWord === false && userInput.length > 0) {
+      return (
+        <>
+          <p className="invalid">Enter a valid word!</p>
+        </>
+      )
+    } 
+    if (convertedWord.length === 0) {
+      return (
+        <>
+          <p>Enter a word to get its diminutive!</p>
+          <p>Click the camera for a comparison...</p>
+        </>
+      )
+    } 
+    if (validWord === true & convertedWord.length > 1) {
+      return (
+        <p>{convertedWord}</p>
+      )
+    }
   };
-  
-
   
   return (
       <>
@@ -186,9 +175,9 @@ const WordGenerator = (props) => {
           />
         </div>
         <section className="generator-results">
-          {displayInstructionsOrResults}
+          <DisplayInstructionsOrResults />
         </section>
-        <PhotoCards loadingCardInfo={loadingCardInfo} userInput={userInput} convertedWord={convertedWord} wordCardInfo={wordCardInfo}/>
+        <PhotoCards loadingCardInfo={loadingCardInfo} userInput={userInput} convertedWord={convertedWord} wordCardInfo={wordCardInfo} validWord={validWord} />
       </>
     );
 }

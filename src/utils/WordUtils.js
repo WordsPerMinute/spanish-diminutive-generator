@@ -44,28 +44,23 @@ export const isWordGenderFeminine = async (word) => {
     return isFeminine;
 }
 
-
 export const comparisonImageSearch = async (word, diminutive) => {
+    //Promise.all
     let infoObject = {}
 
-    const response = await fetch(`https://cors-anywhere.herokuapp.com/https://serpapi.com/search?engine=google&q=${word}&tbm=isch&ijn=0&api_key=${process.env.REACT_APP_API_KEY}`, {
-        method: "GET",
-    })
+    const response = await fetch(`https://cors-anywhere.herokuapp.com/https://serpapi.com/search?engine=google&q=${word}&tbm=isch&ijn=0&api_key=${process.env.REACT_APP_API_KEY}`)
     let pictures = await response.json()
 
     infoObject['original-photo1'] = pictures.images_results[0].thumbnail;
     infoObject['original-photo2'] = pictures.images_results[1].thumbnail;
 
-    const response2 = await fetch(`https://cors-anywhere.herokuapp.com/https://serpapi.com/search?engine=google&q=${diminutive}&tbm=isch&ijn=0&api_key=${process.env.REACT_APP_API_KEY}`, {
-        method: "GET",
-    })
+    const response2 = await fetch(`https://cors-anywhere.herokuapp.com/https://serpapi.com/search?engine=google&q=${diminutive}&tbm=isch&ijn=0&api_key=${process.env.REACT_APP_API_KEY}`)
     let pictures2 = await response2.json()
+
+    console.log(pictures2)
 
     infoObject['diminutive-photo1'] = pictures2.images_results[0].thumbnail;
     infoObject['diminutive-photo2'] = pictures2.images_results[1].thumbnail;
-
-    console.log(pictures2)
-    console.log(infoObject)
 
     return infoObject;
 }

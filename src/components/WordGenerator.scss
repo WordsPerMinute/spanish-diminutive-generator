@@ -44,7 +44,7 @@
       margin-top: $large;
     }
     font-size: $font-xxxl;
-    .invalid {
+    &.invalid {
       color: #cf142b;
     }
   }
