@@ -14,17 +14,18 @@ Current and stretch goals for the project:
 - Stretch: Add before and after images using Google (or Unsplash's, or anyone's) API to emphasize the diminutive form. (eg. enter 'gato' to receive 'gatito', the left side of the screen will show image results for gato, the right side of the screen will show image results for a tiny, little cat or 'gatito')
 
 
-## Noted words to update support for
+## Noted words to fix
 Some of these words can be hard-coded, but I´m going to review which don't need to be.
 Word | Correct Diminutive | What the Generator Produces
+--- | --- | ---
 feo/fea | feito/feita | feecito
 nuevo | nuevecito | nuevito
-taza | tacita | tazita
-plaza | placita | plazita
+taza / cerveza | tacita / cervecita | tazita / cervezita
 
 
 ## Technical
-React app
+React app.
+To run on your local machine, clone and npm install
 
 ## Contributor's Guide
 At this time, no additional functionality needs have been laid out. If you'd like to get in touch, you can reach me via my website, http://coreyhodge.net
