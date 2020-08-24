@@ -53,6 +53,7 @@ export const comparisonImageSearch = async (word, diminutive) => {
 
     infoObject['original-photo1'] = pictures.images_results[0].thumbnail;
     infoObject['original-photo2'] = pictures.images_results[1].thumbnail;
+    infoObject['word'] = word
 
     const response2 = await fetch(`https://cors-anywhere.herokuapp.com/https://serpapi.com/search?engine=google&q=${diminutive}&tbm=isch&ijn=0&api_key=${process.env.REACT_APP_API_KEY}`)
     let pictures2 = await response2.json()
@@ -61,6 +62,7 @@ export const comparisonImageSearch = async (word, diminutive) => {
 
     infoObject['diminutive-photo1'] = pictures2.images_results[0].thumbnail;
     infoObject['diminutive-photo2'] = pictures2.images_results[1].thumbnail;
+    infoObject['diminutive'] = diminutive
 
     return infoObject;
 }

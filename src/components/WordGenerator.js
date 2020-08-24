@@ -7,11 +7,12 @@ import './WordGenerator.scss';
 
 const WordGenerator = (props) => {
   const [userInput, setUserInput] = useState('');
-  const [validWord, setValidWord] = useState(true);
+  const [validatedInput, setValidatedInput] = useState('');
+  const [wordWhenClicked, setWordWhenClicked] = useState('');
+  const [validWord, setValidWord] = useState(false);
   const [convertedWord, setConvertedWord] = useState('');
   const [wordCardInfo, setWordCardInfo] = useState({});
   const [loadingCardInfo, setLoadingCardInfo] = useState(false);
-
 
   const convertWord = async (word) => {
 
@@ -21,6 +22,7 @@ const WordGenerator = (props) => {
 
     if (await doesWordExist(word)) {
       setValidWord(true);
+      setValidatedInput(word);
     } else {
       setValidWord(false);
       return
@@ -45,76 +47,89 @@ const WordGenerator = (props) => {
     const wordOneLetterRemoved = word.slice(0, [word.length - 1]);
     const wordTwoLettersRemoved = word.slice(0, [word.length - 2]);
 
+    const sanitizeThenSetConvertedWord = (unsanitizedWord) => {
+
+      // We are removing all accented characters or "diacritics", because diminutives never contain them
+      let sanitizedWord = unsanitizedWord
+        .replace(/[é]/g,"e")
+        .replace(/[í]/g,"i")
+        .replace(/[á]/g,"a")
+        .replace(/[ó]/g,"o")
+        .replace(/[ú]/g,"u")
+
+      setConvertedWord(sanitizedWord);
+    }
+
     // start with the most restrictive cases, such as irregulars, and work towards more common
     if (irregularEndsInCoCa) {
       isFeminineWord ?
-        setConvertedWord(`${wordTwoLettersRemoved}quita`) :
-        setConvertedWord(`${wordTwoLettersRemoved}quito`)
+        sanitizeThenSetConvertedWord(`${wordTwoLettersRemoved}quita`) :
+        sanitizeThenSetConvertedWord(`${wordTwoLettersRemoved}quito`)
     } else if (irregularEndsInGaGo) {
       //check if second to last letter is 'u', as with 'agua'
       if (word[word.length - 2] === 'u') {
-        setConvertedWord(`${wordTwoLettersRemoved}üita`)
+        sanitizeThenSetConvertedWord(`${wordTwoLettersRemoved}üita`)
       } else {
         isFeminineWord ?
-          setConvertedWord(`${wordOneLetterRemoved}uita`) :
-          setConvertedWord(`${wordOneLetterRemoved}uito`)
+          sanitizeThenSetConvertedWord(`${wordOneLetterRemoved}uita`) :
+          sanitizeThenSetConvertedWord(`${wordOneLetterRemoved}uito`)
       }
     } else if (word.length === 2) {
       isFeminineWord ?
-        setConvertedWord(word + 'cita') :
-        setConvertedWord(word + 'cito')
+        sanitizeThenSetConvertedWord(word + 'cita') :
+        sanitizeThenSetConvertedWord(word + 'cito')
     } else if (syllableTotal === 1 || endsInTwoVowels) {
         if (endsInTwoVowels) {
           switch (lastLetter) {
             default:
               isFeminineWord ?
-                setConvertedWord(`${wordOneLetterRemoved}ecita`) :
-                setConvertedWord(`${wordOneLetterRemoved}ecito`)
+                sanitizeThenSetConvertedWord(`${wordOneLetterRemoved}ecita`) :
+                sanitizeThenSetConvertedWord(`${wordOneLetterRemoved}ecito`)
           }
         } else {
           switch (lastLetter) {
             case 's':
               isFeminineWord ?
-                setConvertedWord(`${wordOneLetterRemoved}cecitas`) :
-                setConvertedWord(`${wordOneLetterRemoved}cecitos`)
+                sanitizeThenSetConvertedWord(`${wordOneLetterRemoved}cecitas`) :
+                sanitizeThenSetConvertedWord(`${wordOneLetterRemoved}cecitos`)
               break;
             case 'n':
-              setConvertedWord(`${word}ecito`);
+              sanitizeThenSetConvertedWord(`${word}ecito`);
               break;
             case 'z':
               isFeminineWord ?
-                setConvertedWord(`${wordOneLetterRemoved}cecita`) :
-                setConvertedWord(`${wordOneLetterRemoved}cecito`)
+                sanitizeThenSetConvertedWord(`${wordOneLetterRemoved}cecita`) :
+                sanitizeThenSetConvertedWord(`${wordOneLetterRemoved}cecito`)
               break;
             case 'a':
               isFeminineWord ?
-                setConvertedWord(`${wordOneLetterRemoved}cecita`) :
-                setConvertedWord(`${wordOneLetterRemoved}cecito`)
+                sanitizeThenSetConvertedWord(`${wordOneLetterRemoved}cecita`) :
+                sanitizeThenSetConvertedWord(`${wordOneLetterRemoved}cecito`)
               break;
             default:
               isFeminineWord ?
-                setConvertedWord(`${word.slice(0, [word.length])}ecita`) :
-                setConvertedWord(`${word.slice(0, [word.length])}ecito`)
+                sanitizeThenSetConvertedWord(`${word.slice(0, [word.length])}ecita`) :
+                sanitizeThenSetConvertedWord(`${word.slice(0, [word.length])}ecito`)
           }
         }
     } else if (lastLetter === 'o') {
-        setConvertedWord(`${wordOneLetterRemoved}ito`)
+        sanitizeThenSetConvertedWord(`${wordOneLetterRemoved}ito`)
     } else if (lastLetter === 'a') {
-        setConvertedWord(`${wordOneLetterRemoved}ita`)
+        sanitizeThenSetConvertedWord(`${wordOneLetterRemoved}ita`)
     } else if (endsInConsonantButNotRNZ) {
         isFeminineWord ?
-          setConvertedWord(`${word}ita`) :
-          setConvertedWord(`${word}ito`)
+          sanitizeThenSetConvertedWord(`${word}ita`) :
+          sanitizeThenSetConvertedWord(`${word}ito`)
     } else if (endsInNREIUOrAccentedVowel) {
         isFeminineWord ?
-          setConvertedWord(`${word}cita`) :
-          setConvertedWord(`${word}cito`)
+          sanitizeThenSetConvertedWord(`${word}cita`) :
+          sanitizeThenSetConvertedWord(`${word}cito`)
     } else if (lastLetter === 'z') {
         isFeminineWord ?
-          setConvertedWord(`${wordOneLetterRemoved}cita`) :
-          setConvertedWord(`${wordOneLetterRemoved}cito`)
+          sanitizeThenSetConvertedWord(`${wordOneLetterRemoved}cita`) :
+          sanitizeThenSetConvertedWord(`${wordOneLetterRemoved}cito`)
     } else {
-      setConvertedWord(`${word}ito`)
+      sanitizeThenSetConvertedWord(`${word}ito`)
     }
   }
 
@@ -129,7 +144,9 @@ const WordGenerator = (props) => {
       const currentSearch = value;
       convertWord(currentSearch)
     } else {
-      setConvertedWord('')
+      setValidWord(false);
+      setConvertedWord('');
+      setUserInput(value)
     }
   };
 
@@ -167,17 +184,25 @@ const WordGenerator = (props) => {
           <GiPhotoCamera 
             className="contract-icon"
             onClick={async () => {
-              setLoadingCardInfo(true)
+              setLoadingCardInfo(true);
               const result = await comparisonImageSearch(userInput, convertedWord)
               setWordCardInfo(result);
-              setLoadingCardInfo(false)
+              setWordWhenClicked(userInput)
+              setLoadingCardInfo(false);
             }}
           />
         </div>
         <section className="generator-results">
           <DisplayInstructionsOrResults />
         </section>
-        <PhotoCards loadingCardInfo={loadingCardInfo} userInput={userInput} convertedWord={convertedWord} wordCardInfo={wordCardInfo} validWord={validWord} />
+        <PhotoCards 
+          loadingCardInfo={loadingCardInfo} 
+          validatedInput={validatedInput} 
+          convertedWord={convertedWord} 
+          wordCardInfo={wordCardInfo} 
+          validWord={validWord} 
+          wordWhenClicked={wordWhenClicked}
+        />
       </>
     );
 }
