@@ -47,6 +47,9 @@ export const isWordGenderFeminine = async (word) => {
 export const comparisonImageSearch = async (word, diminutive) => {
     //Promise.all
     let infoObject = {}
+    console.log(word)
+    console.log(process.env.REACT_APP_API_KEY)
+    console.log(`https://cors-anywhere.herokuapp.com/https://serpapi.com/search?engine=google&q=${word}&tbm=isch&ijn=0&api_key=${process.env.REACT_APP_API_KEY}`)
 
     const response = await fetch(`https://cors-anywhere.herokuapp.com/https://serpapi.com/search?engine=google&q=${word}&tbm=isch&ijn=0&api_key=${process.env.REACT_APP_API_KEY}`)
     let pictures = await response.json()
