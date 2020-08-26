@@ -1,8 +1,7 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, } from 'react';
 import { doesWordExist, isWordGenderFeminine, countSyllables, comparisonImageSearch, debounce } from '../utils/WordUtils'
 import PhotoCards from './PhotoCards'
 import { GiPhotoCamera } from 'react-icons/gi';
-// import debounce from 'lodash';
 import './WordGenerator.scss';
 
 const WordGenerator = (props) => {

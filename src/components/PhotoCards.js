@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { RiLoader2Line } from 'react-icons/ri';
 import './PhotoCards.scss'
 import SampleInput1 from '../images/perro1.jpeg'
