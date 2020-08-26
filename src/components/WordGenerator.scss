@@ -1,10 +1,14 @@
 @import '../styles/_all-utility-sheets.scss';
 
 .search-wrapper {
-    width: 700px;
+    width: 550px;
     align-self: center;
     display: flex;
-    padding-top: $xxxxl;
+    padding-top: $xxxl;
+    @media (max-width: 600px) {
+      max-width: 325px;
+      padding-top: $xxxl;
+    }
 }
 
 .search-box {
@@ -14,6 +18,8 @@
   width: 100%;
   padding: 1rem;
   transition: width 0.3s;
+  border-radius: 10px;
+  border: 1px solid $grey-7;
 }
 
 .search-box:focus {
@@ -38,7 +44,7 @@
 }
 
 .generator-results {
-  margin-top: $large;
+  margin-top: 0;
   p {
     margin-top: $xs;
     font-size: $font-xl;
@@ -49,5 +55,5 @@
       color: #cf142b;
     }
   }
-  min-height: 100px;
+  min-height: 70px;
 }

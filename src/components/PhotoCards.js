@@ -16,8 +16,8 @@ const PhotoCards = ({ wordCardInfo, validatedInput, convertedWord, loadingCardIn
           <h3 className="original-title">{(validWord && wordWhenClicked === validatedInput) ? validatedInput : wordCardInfo['word'] || 'perro'}</h3>
             {loadingCardInfo ? <RiLoader2Line className="loading-wheel" /> : 
               <>
-                <img src={wordCardInfo['original-photo1'] || SampleInput1} className="original-photo1" alt="original-photo1" />
-                <img src={wordCardInfo['original-photo2'] || SampleInput2} className="original-photo2" alt="original-photo2" />
+                <div className="card-image-wrapper"><img src={wordCardInfo['original-photo1'] || SampleInput1} className="original-photo1" alt="original-photo1" /></div>
+                <div className="card-image-wrapper"><img src={wordCardInfo['original-photo2'] || SampleInput2} className="original-photo2" alt="original-photo2" /></div>
               </>}
         </div>
 
@@ -25,8 +25,8 @@ const PhotoCards = ({ wordCardInfo, validatedInput, convertedWord, loadingCardIn
           <h3 className="diminutive-title">{(validWord && wordWhenClicked === validatedInput) ? convertedWord : wordCardInfo['diminutive'] || 'perrito'}</h3>
           {loadingCardInfo ? <RiLoader2Line className="loading-wheel" /> : 
               <>
-              <img src={wordCardInfo['diminutive-photo1'] || SampleOuput1} className="diminutive-photo1" alt="diminutive-photo1" />
-              <img src={wordCardInfo['diminutive-photo2'] || SampleOutput2} className="diminutive-photo2" alt="diminutive-photo2" />
+              <div className="card-image-wrapper"><img src={wordCardInfo['diminutive-photo1'] || SampleOuput1} className="diminutive-photo1" alt="diminutive-photo1" /></div>
+              <div className="card-image-wrapper"><img src={wordCardInfo['diminutive-photo2'] || SampleOutput2} className="diminutive-photo2" alt="diminutive-photo2" /></div>
               </>}
         </div>
       </section>

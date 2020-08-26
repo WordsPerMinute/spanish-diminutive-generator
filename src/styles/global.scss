@@ -24,10 +24,17 @@ h1, h2, h3, h4, h5, h6 {
 h1 {
     font-size: $font-xxxxl;
     font-weight: 600;
+    @media (max-width: 600px) {
+        font-size: $font-xxl;
+
+    }
 }
 
 h2 {
     font-size: $font-xxxl;
+    @media (max-width: 600px) {
+        font-size: $font-large;
+    }
 }
 
 h3 {
