@@ -7,6 +7,9 @@
     margin-top: $xxl;
     @media (max-width: 600px) {
         margin-top: 0;
+        @media (min-height: 725px) {
+            margin-top: $xxxxl;
+        }
     }
   }
   
