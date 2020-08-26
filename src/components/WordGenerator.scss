@@ -7,7 +7,10 @@
     padding-top: $xxxl;
     @media (max-width: 600px) {
       max-width: 325px;
-      padding-top: $xxxl;
+      padding-top: $xl;
+      @media (min-height: 725px) {
+          margin-top: $xxxl;
+      }
     }
 }
 
