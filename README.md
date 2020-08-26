@@ -16,11 +16,10 @@ Current and stretch goals for the project:
 
 ## Noted words to fix
 Some of these words can be hard-coded, but I´m going to review which don't need to be.
+As of Aug 26 2020, all known words have been removed and addressed.
+(removed from list, fixed cases: ended in 'z@', 'e@', categorized as irregulars)
 Word | Correct Diminutive | What the Generator Produces
 --- | --- | ---
-feo/fea | feito/feita | feecito
-nuevo | nuevecito | nuevito
-taza / cerveza | tacita / cervecita | tazita / cervezita
 
 
 ## Technical

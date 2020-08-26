@@ -42,6 +42,14 @@ const WordGenerator = (props) => {
     const irregularEndsInGaGo = !(word.search(irregularEndsInGaGoCondition) === -1) ? true : false;
     const irregularEndsInCoCaCondition = /(co|ca)$/;
     const irregularEndsInCoCa = !(word.search(irregularEndsInCoCaCondition) === -1) ? true : false;
+    const irregularEndsInZoZaCondition = /(zo|za)$/;
+    const irregularEndsInZoZa = !(word.search(irregularEndsInZoZaCondition) === -1) ? true : false;
+    const irregularEndsInEoEaCondition = /(eo|ea)$/;
+    // this condition exists because although there's a "two vowel" check, eo/ea is an exception to that rule
+    // it might also be possible to instead modify endsInTwoVowels
+    const irregularEndsInEoEa = !(word.search(irregularEndsInEoEaCondition) === -1) ? true : false;
+    const irregularEndsInVoVaCondition = /(vo|va)$/;
+    const irregularEndsInVoVa = !(word.search(irregularEndsInVoVaCondition) === -1) ? true : false;
     const isFeminineWord = await isWordGenderFeminine(word);
 
     const wordOneLetterRemoved = word.slice(0, [word.length - 1]);
@@ -59,9 +67,22 @@ const WordGenerator = (props) => {
 
       setConvertedWord(sanitizedWord);
     }
-
+    //irregularEndsInEoEaCondition
+    //
     // start with the most restrictive cases, such as irregulars, and work towards more common
-    if (irregularEndsInCoCa) {
+    if (irregularEndsInEoEa) {
+      isFeminineWord ?
+        sanitizeThenSetConvertedWord(`${wordOneLetterRemoved}ita`) :
+        sanitizeThenSetConvertedWord(`${wordOneLetterRemoved}ito`)
+    } else if (irregularEndsInVoVa) {
+      isFeminineWord ?
+        sanitizeThenSetConvertedWord(`${wordOneLetterRemoved}ecita`) :
+        sanitizeThenSetConvertedWord(`${wordOneLetterRemoved}ecito`)
+    } else if (irregularEndsInZoZa) {
+      isFeminineWord ?
+        sanitizeThenSetConvertedWord(`${wordTwoLettersRemoved}cita`) :
+        sanitizeThenSetConvertedWord(`${wordTwoLettersRemoved}cito`)
+    } else if (irregularEndsInCoCa) {
       isFeminineWord ?
         sanitizeThenSetConvertedWord(`${wordTwoLettersRemoved}quita`) :
         sanitizeThenSetConvertedWord(`${wordTwoLettersRemoved}quito`)
