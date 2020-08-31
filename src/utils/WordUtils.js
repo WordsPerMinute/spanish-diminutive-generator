@@ -26,6 +26,7 @@ export const isWordGenderFeminine = async (word) => {
     let $ = cheerio.load(htmlText);
     // tells whether masculine, feminine, or both in the case of amigo/amiga
     let genderInfo = $('strong+ .POS2').first().text()
+    console.log(genderInfo)
 
     // if the length is 2, that means itś only one gender, and greater means multiple
     if (genderInfo.length > 2) {
@@ -33,6 +34,8 @@ export const isWordGenderFeminine = async (word) => {
             case 'o':
                 break;
             case 'e':
+                break;
+            case 'r':
                 break;
             default:
                 isFeminine = true;
@@ -48,13 +51,12 @@ export const comparisonImageSearch = async (word, diminutive) => {
     //Promise.all
     let infoObject = {}
     
-    const response = await fetch(`${process.env.REACT_APP_DEV_PROXY}?engine=google&q=${word}&tbm=isch&ijn=0&api_key=${process.env.REACT_APP_API_KEY}`)
+    const response = await fetch(`${process.env.REACT_APP_DEV_PROXY}https://serpapi.com/search?engine=google&q=${word}&tbm=isch&ijn=0&api_key=${process.env.REACT_APP_API_KEY}`)
     let pictures = await response.json()
-    const response2 = await fetch(`${process.env.REACT_APP_DEV_PROXY}?engine=google&q=${diminutive}&tbm=isch&ijn=0&api_key=${process.env.REACT_APP_API_KEY}`)
+    const response2 = await fetch(`${process.env.REACT_APP_DEV_PROXY}https://serpapi.com/search?engine=google&q=${diminutive}&tbm=isch&ijn=0&api_key=${process.env.REACT_APP_API_KEY}`)
     let pictures2 = await response2.json()
 
     Promise.all([pictures, pictures2]).then(values => {
-        console.log(values)
         infoObject['original-photo1'] = values[0].images_results[0].thumbnail;
         infoObject['original-photo2'] = values[0].images_results[1].thumbnail;
         infoObject['word'] = word

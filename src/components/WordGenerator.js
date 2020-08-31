@@ -49,6 +49,8 @@ const WordGenerator = (props) => {
     const irregularEndsInEoEa = !(word.search(irregularEndsInEoEaCondition) === -1) ? true : false;
     const irregularEndsInVoVaCondition = /(vo|va)$/;
     const irregularEndsInVoVa = !(word.search(irregularEndsInVoVaCondition) === -1) ? true : false;
+    const irregularEndsInEnyeORCondition = /(ñor|ñora)$/;
+    const irregularEndsInEnyeOR = !(word.search(irregularEndsInEnyeORCondition) === -1) ? true : false;
     const isFeminineWord = await isWordGenderFeminine(word);
 
     const wordOneLetterRemoved = word.slice(0, [word.length - 1]);
@@ -69,7 +71,13 @@ const WordGenerator = (props) => {
     //irregularEndsInEoEaCondition
     //
     // start with the most restrictive cases, such as irregulars, and work towards more common
-    if (irregularEndsInEoEa) {
+    if (irregularEndsInEnyeOR) {
+      console.log(word)
+
+      isFeminineWord ?
+        sanitizeThenSetConvertedWord(`${wordOneLetterRemoved}ita`) :
+        sanitizeThenSetConvertedWord(`${word}ito`)
+    } else if (irregularEndsInEoEa) {
       isFeminineWord ?
         sanitizeThenSetConvertedWord(`${wordOneLetterRemoved}ita`) :
         sanitizeThenSetConvertedWord(`${wordOneLetterRemoved}ito`)
@@ -206,7 +214,7 @@ const WordGenerator = (props) => {
             onClick={async () => {
               setLoadingCardInfo(true);
               const result = await comparisonImageSearch(userInput, convertedWord)
-              setWordCardInfo(result);
+              setWordCardInfo(await result);
               setWordWhenClicked(userInput)
               setLoadingCardInfo(false);
             }}
