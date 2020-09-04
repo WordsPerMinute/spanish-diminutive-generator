@@ -48,13 +48,18 @@ export const isWordGenderFeminine = async (word) => {
 }
 
 export const comparisonImageSearch = async (word, diminutive) => {
-    //Promise.all
     let infoObject = {}
-    
-    const response = await fetch(`${process.env.REACT_APP_DEV_PROXY}https://serpapi.com/search?engine=google&q=${word}&tbm=isch&ijn=0&api_key=${process.env.REACT_APP_API_KEY}`)
+
+    const apiUrl = process.env.NODE_ENV === 'production' ? process.env.REACT_APP_PROD_API_URL : process.env.REACT_APP_DEV_API_URL;
+
+    const response = await fetch(`${apiUrl}/images?word=${word}`)
     let pictures = await response.json()
-    const response2 = await fetch(`${process.env.REACT_APP_DEV_PROXY}https://serpapi.com/search?engine=google&q=${diminutive}&tbm=isch&ijn=0&api_key=${process.env.REACT_APP_API_KEY}`)
+    const response2 = await fetch(`${apiUrl}/images?word=${diminutive}`)
     let pictures2 = await response2.json()
+
+    console.log('pictures', pictures)
+    console.log('pictures2', pictures2)
+
 
     Promise.all([pictures, pictures2]).then(values => {
         infoObject['original-photo1'] = values[0].images_results[0].thumbnail;
@@ -64,7 +69,8 @@ export const comparisonImageSearch = async (word, diminutive) => {
         infoObject['diminutive-photo2'] = values[1].images_results[1].thumbnail;
         infoObject['diminutive'] = diminutive
     })
-
+    
+    console.log('infoObject', infoObject)
     return infoObject;
 }
 
