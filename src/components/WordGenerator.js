@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
-import { doesWordExist, isWordGenderFeminine, countSyllables, comparisonImageSearch, debounce } from '../utils/WordUtils';
+import { getWordInfo, countSyllables, fetchComparisonImages, debounce } from '../utils/WordUtils';
 import { convertTodiminutive } from '../utils/diminutiveConverter';
 import PhotoCards from './PhotoCards'
 import { GiPhotoCamera } from 'react-icons/gi';
@@ -23,7 +23,7 @@ const WordGenerator = (props) => {
 
     lastSearchedWord.current = word;
     setLoadingCardInfo(true);
-    const result = await comparisonImageSearch(word, diminutive);
+    const result = await fetchComparisonImages(word, diminutive);
     setWordCardInfo(result);
     setWordWhenClicked(word);
     setLoadingCardInfo(false);
@@ -38,24 +38,22 @@ const WordGenerator = (props) => {
   }, [pendingSearch, validWord, convertedWord, userInput]);
 
   const convertWord = async (word) => {
-
-    // ideas here :)
-    // fixed height for p element, or other stuff
-    // add English translations
-
     setIsCheckingWord(true);
-    if (await doesWordExist(word)) {
-      setValidWord(true);
-      setValidatedInput(word);
-    } else {
+
+    // Single request to get both existence and gender
+    const { exists, isFeminine } = await getWordInfo(word);
+
+    if (!exists) {
       setValidWord(false);
       setIsCheckingWord(false);
-      return
+      return;
     }
 
+    setValidWord(true);
+    setValidatedInput(word);
+
     const syllableTotal = countSyllables(word);
-    const isFeminineWord = await isWordGenderFeminine(word);
-    const diminutive = convertTodiminutive(word, isFeminineWord, syllableTotal);
+    const diminutive = convertTodiminutive(word, isFeminine, syllableTotal);
     setConvertedWord(diminutive);
     setIsCheckingWord(false);
   }
