@@ -1,4 +1,4 @@
-import React, { useState, useCallback, } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { doesWordExist, isWordGenderFeminine, countSyllables, comparisonImageSearch, debounce } from '../utils/WordUtils';
 import { convertTodiminutive } from '../utils/diminutiveConverter';
 import PhotoCards from './PhotoCards'
@@ -14,6 +14,28 @@ const WordGenerator = (props) => {
   const [convertedWord, setConvertedWord] = useState('');
   const [wordCardInfo, setWordCardInfo] = useState({});
   const [loadingCardInfo, setLoadingCardInfo] = useState(false);
+  const [pendingSearch, setPendingSearch] = useState(false);
+  const lastSearchedWord = useRef('');
+
+  const doImageSearch = async (word, diminutive) => {
+    // Skip if we already searched this word
+    if (lastSearchedWord.current === word) return;
+
+    lastSearchedWord.current = word;
+    setLoadingCardInfo(true);
+    const result = await comparisonImageSearch(word, diminutive);
+    setWordCardInfo(result);
+    setWordWhenClicked(word);
+    setLoadingCardInfo(false);
+  };
+
+  // When word becomes valid and we have a pending search, execute it
+  useEffect(() => {
+    if (pendingSearch && validWord && convertedWord && userInput) {
+      setPendingSearch(false);
+      doImageSearch(userInput, convertedWord);
+    }
+  }, [pendingSearch, validWord, convertedWord, userInput]);
 
   const convertWord = async (word) => {
 
@@ -89,18 +111,16 @@ const WordGenerator = (props) => {
             onKeyDown={event => {
               if (event.key === 'Enter') {
                 event.preventDefault();
-                onChange(event.target.value);
+                setPendingSearch(true);
               }
             }}
           />
-          <GiPhotoCamera 
+          <GiPhotoCamera
             className="contract-icon"
-            onClick={async () => {
-              setLoadingCardInfo(true);
-              const result = await comparisonImageSearch(userInput, convertedWord)
-              setWordCardInfo(await result);
-              setWordWhenClicked(userInput)
-              setLoadingCardInfo(false);
+            onClick={() => {
+              if (validWord && convertedWord) {
+                doImageSearch(userInput, convertedWord);
+              }
             }}
           />
         </div>
