@@ -9,6 +9,7 @@ const WordGenerator = (props) => {
   const [validatedInput, setValidatedInput] = useState('');
   const [wordWhenClicked, setWordWhenClicked] = useState('');
   const [validWord, setValidWord] = useState(false);
+  const [isCheckingWord, setIsCheckingWord] = useState(false);
   const [convertedWord, setConvertedWord] = useState('');
   const [wordCardInfo, setWordCardInfo] = useState({});
   const [loadingCardInfo, setLoadingCardInfo] = useState(false);
@@ -19,11 +20,13 @@ const WordGenerator = (props) => {
     // fixed height for p element, or other stuff
     // add English translations
 
+    setIsCheckingWord(true);
     if (await doesWordExist(word)) {
       setValidWord(true);
       setValidatedInput(word);
     } else {
       setValidWord(false);
+      setIsCheckingWord(false);
       return
     }
 
@@ -159,6 +162,7 @@ const WordGenerator = (props) => {
     } else {
       sanitizeThenSetConvertedWord(`${word}ito`)
     }
+    setIsCheckingWord(false);
   }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -180,7 +184,7 @@ const WordGenerator = (props) => {
   };
 
   const DisplayInstructionsOrResults = () => {
-    if (validWord === false && userInput.length > 0) {
+    if (validWord === false && userInput.length > 0 && !isCheckingWord) {
       return (
         <>
           <p className="invalid">Enter a valid word!</p>
@@ -209,6 +213,12 @@ const WordGenerator = (props) => {
             type="text"
             className="search-box"
             onChange={event => debouncedOnChange(event.target.value)}
+            onKeyDown={event => {
+              if (event.key === 'Enter') {
+                event.preventDefault();
+                onChange(event.target.value);
+              }
+            }}
           />
           <GiPhotoCamera 
             className="contract-icon"
