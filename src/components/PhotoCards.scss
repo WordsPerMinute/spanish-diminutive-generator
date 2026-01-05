@@ -1,4 +1,4 @@
-@import '../styles/_all-utility-sheets.scss';
+@use '../styles/all-utility-sheets' as *;
 
 .word-cards-container {
     display: flex;

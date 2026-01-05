@@ -1,4 +1,4 @@
-@import '_colors.scss';
-@import '_sizes-and-fonts.scss';
+@forward 'colors';
+@forward 'sizes-and-fonts';
 
 //reset is excluded from this file

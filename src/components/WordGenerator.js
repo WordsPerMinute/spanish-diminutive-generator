@@ -161,9 +161,10 @@ const WordGenerator = (props) => {
     }
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedOnChange = useCallback(
     debounce((value) => onChange(value), 500),
-    []
+    [] // intentionally empty - we want debounce created once
   );
 
   const onChange = (value) => {
