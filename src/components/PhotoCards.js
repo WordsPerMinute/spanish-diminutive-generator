@@ -10,10 +10,21 @@ import SampleOutput2 from '../images/perrito2.jpeg'
 // maybe camera with arrow tooltop explaining to click
 const PhotoCards = ({ wordCardInfo, validatedInput, convertedWord, loadingCardInfo, validWord, wordWhenClicked, sampleNames }) => {
 
-    return ( 
+    const isCurrentSearch = validWord && wordWhenClicked === validatedInput;
+
+    const getDisplayTitle = (currentWord, cachedWord, fallback) => {
+      if (loadingCardInfo) return currentWord;
+      if (isCurrentSearch) return currentWord;
+      return cachedWord || fallback;
+    };
+
+    const originalTitle = getDisplayTitle(validatedInput, wordCardInfo['word'], 'perro');
+    const diminutiveTitle = getDisplayTitle(convertedWord, wordCardInfo['diminutive'], 'perrito');
+
+    return (
         <section className="word-cards-container">
         <div className="word-card original">
-          <h3 className="original-title">{(validWord && wordWhenClicked === validatedInput) ? validatedInput : wordCardInfo['word'] || 'perro'}</h3>
+          <h3 className="original-title">{originalTitle}</h3>
             {loadingCardInfo ? <RiLoader2Line className="loading-wheel" /> : 
               <>
                 <div className="card-image-wrapper"><img src={wordCardInfo['original-photo1'] || SampleInput1} className="original-photo1" alt="original-photo1" /></div>
@@ -22,7 +33,7 @@ const PhotoCards = ({ wordCardInfo, validatedInput, convertedWord, loadingCardIn
         </div>
 
         <div className="word-card diminutive">
-          <h3 className="diminutive-title">{(validWord && wordWhenClicked === validatedInput) ? convertedWord : wordCardInfo['diminutive'] || 'perrito'}</h3>
+          <h3 className="diminutive-title">{diminutiveTitle}</h3>
           {loadingCardInfo ? <RiLoader2Line className="loading-wheel" /> : 
               <>
               <div className="card-image-wrapper"><img src={wordCardInfo['diminutive-photo1'] || SampleOuput1} className="diminutive-photo1" alt="diminutive-photo1" /></div>
