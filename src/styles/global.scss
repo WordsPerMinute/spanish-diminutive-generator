@@ -1,5 +1,5 @@
-@import '_reset.scss';
-@import '_all-utility-sheets.scss';
+@use 'reset';
+@use 'all-utility-sheets' as *;
 
 *, *::before, *::after {
     box-sizing: border-box;

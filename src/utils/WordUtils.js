@@ -56,27 +56,24 @@ export const isWordGenderFeminine = async (word) => {
   return isFeminine;
 };
 
+const API_BASE = process.env.NODE_ENV === 'development'
+  ? 'http://localhost:5000'
+  : '';
+
 export const comparisonImageSearch = async (word, diminutive) => {
-  //Promise.all
   let infoObject = {};
 
-  const response = await fetch(
-    `${process.env.REACT_APP_DEV_PROXY}https://serpapi.com/search?engine=google&q=${word}&tbm=isch&ijn=0&api_key=${process.env.REACT_APP_API_KEY}`
-  );
-  let pictures = await response.json();
-  const response2 = await fetch(
-    `${process.env.REACT_APP_DEV_PROXY}https://serpapi.com/search?engine=google&q=${diminutive}&tbm=isch&ijn=0&api_key=${process.env.REACT_APP_API_KEY}`
-  );
-  let pictures2 = await response2.json();
+  const [pictures, pictures2] = await Promise.all([
+    fetch(`${API_BASE}/images?word=${encodeURIComponent(word)}`).then(res => res.json()),
+    fetch(`${API_BASE}/images?word=${encodeURIComponent(diminutive)}`).then(res => res.json())
+  ]);
 
-  Promise.all([pictures, pictures2]).then((values) => {
-    infoObject["original-photo1"] = values[0].images_results[0].thumbnail;
-    infoObject["original-photo2"] = values[0].images_results[1].thumbnail;
-    infoObject["word"] = word;
-    infoObject["diminutive-photo1"] = values[1].images_results[0].thumbnail;
-    infoObject["diminutive-photo2"] = values[1].images_results[1].thumbnail;
-    infoObject["diminutive"] = diminutive;
-  });
+  infoObject["original-photo1"] = pictures.images_results[0].thumbnail;
+  infoObject["original-photo2"] = pictures.images_results[1].thumbnail;
+  infoObject["word"] = word;
+  infoObject["diminutive-photo1"] = pictures2.images_results[0].thumbnail;
+  infoObject["diminutive-photo2"] = pictures2.images_results[1].thumbnail;
+  infoObject["diminutive"] = diminutive;
 
   return infoObject;
 };
