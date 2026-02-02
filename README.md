@@ -1,5 +1,9 @@
 # spanish-diminutive-generator
 
+**Try it live:**
+- [coreyhodge.net/spanish-diminutive-generator](https://coreyhodge.net/spanish-diminutive-generator)
+- [spanish-diminutive-generator.herokuapp.com](https://spanish-diminutive-generator.herokuapp.com/)
+
 The Spanish Diminutive Generator or 'generador de diminutivos'...  
 Input a word (like 'casa' or 'café') and get its Spanish diminutive version (like 'casita' or 'cafecito').
 
