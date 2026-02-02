@@ -13,9 +13,12 @@ $transition: 0.2;
 $mobile-header-size: 125px;
 $mobile-footer-size: 75px;
 
-// breakpoints
-$small-breakpoint: 600px;
-$medium-breakpoint: 950px;
+// Tailwind default breakpoints
+$tw-sm: 640px;
+$tw-md: 768px;
+$tw-lg: 1024px;
+$tw-xl: 1280px;
+$tw-2xl: 1536px;
 
 // scale
 $xxs: 4px;

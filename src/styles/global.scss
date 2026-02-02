@@ -1,7 +1,9 @@
 @use 'reset';
 @use 'all-utility-sheets' as *;
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
@@ -18,14 +20,20 @@ body {
     justify-content: center;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-family: $title-font;
 }
 
 h1 {
     font-size: $font-xxxxl;
     font-weight: 600;
-    @media (max-width: 600px) {
+
+    @media (max-width: $tw-sm) {
         font-size: $font-xxl;
 
     }
@@ -33,7 +41,8 @@ h1 {
 
 h2 {
     font-size: $font-xxxl;
-    @media (max-width: 600px) {
+
+    @media (max-width: $tw-sm) {
         font-size: $font-large;
     }
 }
