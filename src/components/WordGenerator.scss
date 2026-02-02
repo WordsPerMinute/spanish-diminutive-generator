@@ -1,17 +1,19 @@
 @use '../styles/all-utility-sheets' as *;
 
 .search-wrapper {
-    width: 550px;
-    align-self: center;
-    display: flex;
-    padding-top: $xxxl;
-    @media (max-width: 600px) {
-      max-width: 325px;
-      padding-top: $xl;
-      @media (min-height: 725px) {
-          margin-top: $xxxl;
-      }
+  width: 550px;
+  align-self: center;
+  display: flex;
+  padding-top: $xxxl;
+
+  @media (max-width: 600px) {
+    max-width: 325px;
+    padding-top: $xl;
+
+    @media (min-height: 725px) {
+      margin-top: $xxxl;
     }
+  }
 }
 
 .search-box {
@@ -28,7 +30,7 @@
 .search-box:focus {
   width: 100%;
   outline: none;
-  border: 2px solid hsla(140,61.3%,63.5%, .5);
+  border: 2px solid hsla(140, 61.3%, 63.5%, .5);
 }
 
 .contract-icon {
@@ -39,24 +41,25 @@
   opacity: 0.2;
   background-color: transparent;
   border: 0;
+
   &:hover {
-      outline: none;
-      opacity: 0.4;
-      cursor: pointer;
+    outline: none;
+    opacity: 0.4;
+    cursor: pointer;
   }
 }
 
 .generator-results {
-  margin-top: 0;
+  padding: $xs 0 $xxl 0;
+
   p {
     margin-top: $xs;
     font-size: $font-xl;
-    &:first-child {
-      // margin-top: $large;
-    }
+
     &.invalid {
       color: #cf142b;
     }
   }
+
   min-height: 70px;
 }

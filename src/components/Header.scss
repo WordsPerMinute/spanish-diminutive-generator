@@ -4,12 +4,15 @@ h1 {
     .spanish {
         color: #ffcc00;
     }
+
     .diminutive {
         color: #00247d;
     }
+
     .generator {
         color: #cf142b;
     }
+
     a {
         text-decoration: none;
     }
@@ -18,8 +21,4 @@ h1 {
 h2 {
     margin-top: $small;
     color: $grey-5;
-}
-
-header {
-    padding-top: $baseline;
 }
