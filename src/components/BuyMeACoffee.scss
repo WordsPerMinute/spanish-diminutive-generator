@@ -1,0 +1,56 @@
+@use '../styles/all-utility-sheets' as *;
+
+.bmc-button {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+
+  z-index: 100;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 10px 16px;
+  border-radius: 8px;
+
+  background: #ffcc00;
+  color: #00247d;
+
+  font-family: $title-font; // Oswald
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: background 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
+
+  svg {
+    font-size: 1.25rem;
+    color: #cc0000;
+  }
+
+  &:hover {
+    background: #00247d;
+    color: #ffcc00;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+
+    svg {
+      color: #cc0000; // Icon stays red
+    }
+  }
+
+  // Smaller on mobile
+  @media (max-width: $tw-md) {
+    bottom: 8px;
+    right: 8px;
+    padding: 8px 12px;
+    font-size: 14px;
+
+    svg {
+      font-size: 16px;
+    }
+  }
+}

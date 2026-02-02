@@ -3,6 +3,7 @@ import './App.css';
 import './styles/global.scss'
 import Header from './components/Header.js'
 import WordGenerator from './components/WordGenerator.js'
+import BuyMeACoffee from './components/BuyMeACoffee.js'
 
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
     <div className="App">
       <Header />
       <WordGenerator />
+      <BuyMeACoffee />
     </div>
   );
 }
