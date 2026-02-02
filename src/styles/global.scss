@@ -10,11 +10,12 @@ body {
 }
 
 .App {
-    min-height: calc(100vh);
+    min-height: 100vh;
     padding: $baseline;
+    padding-bottom: 10vh;
     display: flex;
     flex-direction: column;
-    // justify-content: space-around;
+    justify-content: center;
 }
 
 h1, h2, h3, h4, h5, h6 {
