@@ -105,6 +105,7 @@ const WordGenerator = (props) => {
           <input
             type="text"
             className="search-box"
+            lang="es"
             onChange={event => debouncedOnChange(event.target.value)}
             onKeyDown={event => {
               if (event.key === 'Enter') {

@@ -51,9 +51,9 @@
 
 .generator-results {
   padding: $xs 0 $xxl 0;
+  gap: $xs;
 
   p {
-    margin-top: $xs;
     font-size: $font-xl;
 
     &.invalid {
@@ -61,5 +61,5 @@
     }
   }
 
-  min-height: 70px;
+  min-height: 100px;
 }
